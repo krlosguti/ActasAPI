@@ -10,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using ActasAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using Newtonsoft.Json.Serialization;
 
 namespace ActasAPI
 {
@@ -28,8 +30,13 @@ namespace ActasAPI
                 Configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly(typeof(ActasDBContext).Assembly.FullName)));
             services.AddControllers();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             // services.AddScoped<IActaAPIRepository,MockActaAPIRepository>();
             services.AddScoped<IActaAPIRepository,ActasAPIRepository>();
+            services.AddControllers().AddNewtonsoftJson(s=>
+            {
+                s.SerializerSettings.ContractResolver=new CamelCasePropertyNamesContractResolver();         
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

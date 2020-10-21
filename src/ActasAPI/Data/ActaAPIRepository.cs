@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ActasAPI.Models;
 using System.Linq;
+using System;
 
 namespace ActasAPI.Data
 {
@@ -14,12 +15,23 @@ namespace ActasAPI.Data
         }
         public void Create(Acta item)
         {
-            throw new System.NotImplementedException();
+            if (item==null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+           _context.Actas.Add(item);
         }
-
+        public void Update(Acta item)
+        {
+           
+        }
         public void Delete(Acta item)
         {
-            throw new System.NotImplementedException();
+            if (item==null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+            _context.Actas.Remove(item);
         }
 
         public IEnumerable<Acta> Get()
@@ -34,12 +46,7 @@ namespace ActasAPI.Data
 
         public bool SaveChanges()
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void Update(Acta item)
-        {
-            throw new System.NotImplementedException();
+            return(_context.SaveChanges()>=0);
         }
     }
 }
